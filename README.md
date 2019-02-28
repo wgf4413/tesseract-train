@@ -15,19 +15,15 @@
 * 每次makebox时，都会判断是否已存在设定语言的训练包，这样可以每次训练时，准确率有所提高<br>
 * 例如：lang=ts  font=yzm   相关的命令行如下<br>
 tesseract ts.yzm.exp0.tif ts.yzm.exp0 -l ts -psm 10 batch.nochop makebox<br>
-<br>
 tesseract ts.yzm.exp0.tif ts.yzm.exp0 -l ts -psm 10 nobatch box.train<br>
 unicharset_extractor ts.yzm.exp0.box<br>
 echo ts 0 0 0 0 0 >> font_properties<br>
 shapeclustering -F font_properties -U unicharset ts.yzm.exp0.tr<br>
 mftraining -F font_properties -U unicharset -O ts.unicharset ts.yzm.exp0.tr<br>
 cntraining ts.yzm.exp0.tr<br>
-<br>
 rename normproto ts.normproto<br>
 rename inttemp ts.inttemp<br>
 rename pffmtable ts.pffmtable<br>
 rename shapetable ts.shapetable<br>
-<br>
 combine_tessdata ts<br>
-<br>
 copy ts.traineddata E:\tesseract-ocr\tessdata /y<br>
