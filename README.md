@@ -12,4 +12,22 @@
 [makebox]根据图片路径合并文件并按行方式识别，识别结果显示在界面上，中间生成文件存放在[TempBox]中<br>
 [save mark]如果界面上识别正确的字符，可以双击文本框，进行人工标记，双击后图标保存到[TempImg]目录中，点击本按钮后生成mark.txt文件<br>
 [train]点击该按钮后，根据mark.txt和[TempImg]目录生成训练文件保存到[TempTrain]并把训练文件复制到[tesseract path]\tessdata目录下<br>
-* 每次makebox时，都会判断是否已存在设定语言的训练包，这样可以每次训练时，准确率有所提高
+* 每次makebox时，都会判断是否已存在设定语言的训练包，这样可以每次训练时，准确率有所提高<br>
+* 例如：lang=ts  font=yzm   相关的命令行如下<br>
+tesseract ts.yzm.exp0.tif ts.yzm.exp0 -l ts -psm 10 batch.nochop makebox<br>
+<br>
+tesseract ts.yzm.exp0.tif ts.yzm.exp0 -l ts -psm 10 nobatch box.train<br>
+unicharset_extractor ts.yzm.exp0.box<br>
+echo ts 0 0 0 0 0 >> font_properties<br>
+shapeclustering -F font_properties -U unicharset ts.yzm.exp0.tr<br>
+mftraining -F font_properties -U unicharset -O ts.unicharset ts.yzm.exp0.tr<br>
+cntraining ts.yzm.exp0.tr<br>
+<br>
+rename normproto ts.normproto<br>
+rename inttemp ts.inttemp<br>
+rename pffmtable ts.pffmtable<br>
+rename shapetable ts.shapetable<br>
+<br>
+combine_tessdata ts<br>
+<br>
+copy ts.traineddata E:\tesseract-ocr\tessdata /y<br>
